@@ -76,6 +76,7 @@ namespace LATIHANMEMBUATCRUD
             this.dgv_menu.RowTemplate.Height = 24;
             this.dgv_menu.Size = new System.Drawing.Size(776, 175);
             this.dgv_menu.TabIndex = 1;
+            this.dgv_menu.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgv_menu_MouseClick);
             // 
             // pb_image
             // 
