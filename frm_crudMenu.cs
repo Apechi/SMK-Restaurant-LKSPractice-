@@ -30,44 +30,6 @@ namespace LATIHANMEMBUATCRUD
             dgv_menu.Columns["photo"].Visible = false;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            formRefresh();
-            clearTB();
-            mainButtonState(false);
-            mainButtonActive();
-        }
-
-        private void btn_insert_Click(object sender, EventArgs e)
-        {
-            Gv.statusProcess = "insert";
-            scButtonActive();
-        }
-
-        private void btn_update_Click(object sender, EventArgs e)
-        {
-            Gv.statusProcess = "update";
-            scButtonActive();
-        }
-
-        private void btn_delete_Click(object sender, EventArgs e)
-        {
-            Gv.statusProcess = "delete";
-            scButtonActive();
-        }
-
-        private void btn_image_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog open = new OpenFileDialog();
-            open.Filter = "Image Files (*.jpg; *.jpeg; *.png ) | *.jpg; *.jpeg; *.png;";
-            if (open.ShowDialog() == DialogResult.OK)
-            {
-                imgLoc = open.FileName;
-                pb_menu.ImageLocation = imgLoc;
-                tb_photo.Text = imgLoc;
-            }
-        }
-
         public void mainButtonActive()
         {
             btn_cancel.Visible = false;
@@ -106,7 +68,7 @@ namespace LATIHANMEMBUATCRUD
             Boolean result = false;
             if (status == "delete")
             {
-                comp.setSql("DELETE FROM MsMenu WHERE id = '" + tb_menuID.Text + "'");
+                comp.setSql($"DELETE FROM MsMenu WHERE id = '{tb_menuID.Text}'");
             }
             else if (status == "insert")
             {
@@ -124,7 +86,7 @@ namespace LATIHANMEMBUATCRUD
             }
             if (status == "search")
             {
-                dgv_menu.DataSource = comp.getSql("SELECT * FROM MsMenu WHERE name LIKE '%" + tb_search.Text + "%' OR price LIKE '%" + tb_search.Text + "%' OR protein LIKE '%" + tb_search.Text + "%' OR carbo LIKE '%" + tb_search.Text + "%'");
+                dgv_menu.DataSource = comp.getSql($"SELECT * FROM MsMenu WHERE name LIKE '%{tb_search.Text}%' OR price LIKE '%{tb_search.Text}%' OR protein LIKE '%{tb_search.Text}%' OR carbo LIKE '%{tb_search.Text}%'");
                 result = true;
             }
             if (!result)
@@ -135,12 +97,6 @@ namespace LATIHANMEMBUATCRUD
                 clearTB();
                 mainButtonState(false);
             }
-        }
-
-        private void btn_save_Click(object sender, EventArgs e)
-        {
-            crudController(Gv.statusProcess);
-            formRefresh();
         }
 
         private void clearTB()
@@ -159,11 +115,12 @@ namespace LATIHANMEMBUATCRUD
             btn_delete.Enabled = state;
         }
 
-        private void btn_cancel_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            mainButtonActive();
+            formRefresh();
             clearTB();
             mainButtonState(false);
+            mainButtonActive();
         }
 
         private void dgv_menu_MouseClick(object sender, MouseEventArgs e)
@@ -179,10 +136,11 @@ namespace LATIHANMEMBUATCRUD
                 tb_carbo.Text = dgv_menu.Rows[x].Cells[3].Value.ToString();
                 tb_protein.Text = dgv_menu.Rows[x].Cells[4].Value.ToString();
                 string imageShow = dgv_menu.Rows[x].Cells[5].Value.ToString();
-                if (imageShow != null && comp.displayImg(dgv_menu.Rows[dgv_menu.CurrentRow.Index].Cells[0].Value.ToString()) != null)
+                string imageName = tb_menuID.Text;
+                byte[] imageBytes = comp.displayImg(imageName);
+                if (imageShow != null && imageBytes != null)
                 {
-                    MemoryStream ms = new MemoryStream(comp.displayImg(dgv_menu.Rows[dgv_menu.CurrentRow.Index].Cells[0].Value.ToString()));
-                    if (ms != null)
+                    using (MemoryStream ms = new MemoryStream(imageBytes))
                     {
                         pb_menu.Image = Image.FromStream(ms);
                     }
@@ -193,6 +151,49 @@ namespace LATIHANMEMBUATCRUD
                 }
                 mainButtonState(true);
             }
+        }
+
+        private void btn_image_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "Image Files (*.jpg; *.jpeg; *.png ) | *.jpg; *.jpeg; *.png;";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                imgLoc = open.FileName;
+                pb_menu.ImageLocation = imgLoc;
+                tb_photo.Text = imgLoc;
+            }
+        }
+
+        private void btn_insert_Click(object sender, EventArgs e)
+        {
+            Gv.statusProcess = "insert";
+            scButtonActive();
+        }
+
+        private void btn_update_Click(object sender, EventArgs e)
+        {
+            Gv.statusProcess = "update";
+            scButtonActive();
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+            Gv.statusProcess = "delete";
+            scButtonActive();
+        }
+
+        private void btn_save_Click(object sender, EventArgs e)
+        {
+            crudController(Gv.statusProcess);
+            formRefresh();
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            mainButtonActive();
+            clearTB();
+            mainButtonState(false);
         }
 
         private void btn_search_Click(object sender, EventArgs e)

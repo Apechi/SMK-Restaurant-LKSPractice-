@@ -40,7 +40,7 @@ namespace LATIHANMEMBUATCRUD
 
             if (status == "insert")
             {
-                comp.setSql("INSERT INTO MsMember (name, email, handphone) VALUES ('" + tb_name.Text + "', '" + tb_email.Text + "', '" + tb_handphone.Text + "')");
+                comp.setSql($"INSERT INTO MsMember (name, email, handphone) VALUES ('{tb_name.Text  }', '{ tb_email.Text } ', '{  tb_handphone.Text  }')");
                 result = false;
             }
             else if (status == "delete")
@@ -58,7 +58,7 @@ namespace LATIHANMEMBUATCRUD
             }
             else if (status == "update")
             {
-                comp.setSql("UPDATE MsMember SET name = '" + tb_name.Text + "', email = '" + tb_email.Text + "', handphone =  '" + tb_handphone.Text + "' ");
+                comp.setSql($"UPDATE MsMember SET name = '{tb_name.Text }', email = '{ tb_email.Text }', handphone =  '{ tb_handphone.Text }' WHERE id = { tb_id.Text }  ");
                 result = false;
             }
             else if (status == "search")

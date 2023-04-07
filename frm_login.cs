@@ -14,10 +14,10 @@ namespace LATIHANMEMBUATCRUD
 {
     public partial class frm_login : Form
     {
-        public frm_admin admin_form = new frm_admin();
-        public frm_cashier cashier = new frm_cashier();
-        public frm_crudMenu menu = new frm_crudMenu();
-        public frm_manageMember member = new frm_manageMember();
+        //public frm_admin admin_form = new frm_admin();
+        //public frm_cashier cashier = new frm_cashier();
+        //public frm_crudMenu menu = new frm_crudMenu();
+        //public frm_manageMember member = new frm_manageMember();
 
         private sqlComponent comp = new sqlComponent();
 
@@ -33,7 +33,7 @@ namespace LATIHANMEMBUATCRUD
 
             try
             {
-                string query = "SELECT * FROM MsEmployee WHERE email = '" + email + "' AND password = '" + password + "'";
+                string query = $"SELECT * FROM MsEmployee WHERE email = '{email}' AND password = '{password}'";
 
                 Gv.da = new SqlDataAdapter(query, Gv.con);
                 var dt = Gv.dt = new DataTable();
@@ -42,20 +42,23 @@ namespace LATIHANMEMBUATCRUD
                 if (dt.Rows.Count > 0)
                 {
                     string name = dt.Rows[0][1].ToString();
+                    Gv.userData = dt.Rows[0][0].ToString();
                     if (dt.Rows[0][5].ToString() == "admin")
                     {
-                        admin_form = new frm_admin();
-                        admin_form.name = name;
-                        admin_form.Show();
+                        Gv.fa.name = name;
+                        Gv.fa.Show();
                     }
                     else if (dt.Rows[0][5].ToString() == "cashier")
                     {
-                        cashier = new frm_cashier();
-                        cashier.name = name;
-                        cashier.Show();
+                        Gv.fc.name = name;
+                        Gv.fc.Show();
                     }
                     this.Hide();
                     Console.WriteLine("berhasil, " + name + "");
+                }
+                else
+                {
+                    Gv.Pesan("Maaf, data yang di masukkan salah", false);
                 }
             }
             catch (Exception ex)
@@ -68,17 +71,8 @@ namespace LATIHANMEMBUATCRUD
             }
         }
 
-        public void formClosed(params Form[] form)
-        {
-            foreach (Form f in form)
-            {
-                f.Close();
-            }
-        }
-
         private void frm_login_Load(object sender, EventArgs e)
         {
-            formClosed(admin_form, member, menu, cashier);
         }
 
         private void btn_login_Click(object sender, EventArgs e)

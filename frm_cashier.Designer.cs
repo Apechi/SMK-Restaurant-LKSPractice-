@@ -64,6 +64,7 @@ namespace LATIHANMEMBUATCRUD
             this.btn_payment.TabIndex = 2;
             this.btn_payment.Text = "Payment";
             this.btn_payment.UseVisualStyleBackColor = true;
+            this.btn_payment.Click += new System.EventHandler(this.btn_payment_Click);
             // 
             // btn_logout
             // 

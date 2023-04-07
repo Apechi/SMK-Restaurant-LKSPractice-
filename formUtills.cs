@@ -26,5 +26,13 @@ namespace LATIHANMEMBUATCRUD
                 btn.Enabled = state;
             }
         }
+
+        public void formClosed(params Form[] form)
+        {
+            foreach (Form f in form)
+            {
+                f.Close();
+            }
+        }
     }
 }

@@ -13,42 +13,43 @@ namespace LATIHANMEMBUATCRUD
     public partial class frm_admin : Form
     {
         public string name { get; set; }
+        private formUtills fu = new formUtills();
+
         public frm_admin()
         {
             InitializeComponent();
-           
-
-    }
+        }
 
         private void frm_admin_Load(object sender, EventArgs e)
         {
-            lbl_profile.Text = "Welcome " + name.ToString() + "";
+            lbl_profile.Text = $"Welcome {name}";
         }
 
         private void btn_menu_Click(object sender, EventArgs e)
         {
-            frm_crudMenu menu = new frm_crudMenu();
-            menu.Show();
-           
+            Gv.fm.Show();
         }
 
         private void btn_member_Click(object sender, EventArgs e)
         {
-            frm_manageMember member = new frm_manageMember();
-            member.Show();
-          
+            Gv.fmm.Show();
         }
 
         private void btn_logout_Click(object sender, EventArgs e)
         {
-            frm_login login = new frm_login();
-            login.Show();
+            fu.formClosed(Gv.fa, Gv.fm, Gv.fmm, Gv.fc, Gv.fl, Gv.fo);
+            Application.Exit();
+            Application.Restart();
             this.Close();
         }
 
         private void btn_order_Click(object sender, EventArgs e)
         {
+            Gv.fo.Show();
+        }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
         }
     }
 }

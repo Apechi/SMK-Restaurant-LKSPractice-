@@ -10,35 +10,37 @@ using System.Windows.Forms;
 
 namespace LATIHANMEMBUATCRUD
 {
-    class Gv
+    internal class Gv
     {
+        public static String userData; //declare string userData
+        public static String formActive;
+        public static String statusProcess; //declare string status process for crud
+        public static SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-F316BRT\SQLEXPRESS;Initial Catalog=db_restoran;Integrated Security=True"); //declare connection
+        public static SqlDataAdapter da; //declare data adapter without making a new instance
+        public static DataTable dt; //declare data table
+        public static SqlCommand cmd; //declare sql command cmd
+        public static frm_admin fa = new frm_admin();
+        public static frm_cashier fc = new frm_cashier();
+        public static frm_crudMenu fm = new frm_crudMenu();
+        public static frm_login fl = new frm_login();
+        public static frm_manageMember fmm = new frm_manageMember();
+        public static frm_order fo = new frm_order();
+        public static frm_payment fp = new frm_payment();
 
-        public static DataTable userData;
-        public static String  formActive;
-        public static String statusProcess;
-        public static string hakAkses;
-        public static SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-F316BRT\SQLEXPRESS;Initial Catalog=db_restoran;Integrated Security=True");
-        public static SqlDataAdapter da;
-        public static DataTable dt;
-        public static SqlCommand cmd;
-
-        public static void Pesan(String x, Boolean y) {
-
+        public static void Pesan(String x, Boolean y)
+        {
             if (y)
             {
                 MessageBox.Show(x, "Informasi",
                 System.Windows.Forms.MessageBoxButtons.OK,
                 System.Windows.Forms.MessageBoxIcon.Information);
-            } else 
+            }
+            else
             {
                 MessageBox.Show(x, "Warning",
                 System.Windows.Forms.MessageBoxButtons.OK,
                 System.Windows.Forms.MessageBoxIcon.Error);
             }
-
-            
         }
-
-
     }
 }
